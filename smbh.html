@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <!-- Pre-paint: set initial theme from saved preference or system -->
+  <script>
+    (function () {
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const dark = saved ? saved === 'dark' : prefersDark;
+      if (dark) document.documentElement.classList.add('dark');
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    })();
+  </script>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Supermassive Black Hole (SMBH) • Blog</title>
+
+  <!-- Tailwind config (class-based dark mode) + Typography plugin -->
+  <script>tailwind = { config: { darkMode: 'class' } };</script>
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕳️</text></svg>">
+</head>
+
+<body class="min-h-screen bg-gray-50 text-gray-800 dark:bg-[#0b0e14] dark:text-gray-100 antialiased selection:bg-indigo-200/60 selection:text-indigo-900 dark:selection:bg-indigo-400/30 dark:selection:text-indigo-50">
+
+  <!-- Subtle background: radial glow + faint grid -->
+  <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10">
+    <div class="absolute inset-0 bg-[radial-gradient(60%_40%_at_50%_10%,rgba(99,102,241,0.12),transparent_60%)] dark:bg-[radial-gradient(60%_40%_at_50%_10%,rgba(99,102,241,0.18),transparent_60%)]"></div>
+    <div class="absolute inset-0 [background:linear-gradient(to_right,rgba(0,0,0,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.06)_1px,transparent_1px)] [background-size:24px_24px] dark:[background:linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.06)_1px,transparent_1px)] opacity-40"></div>
+  </div>
+
+  <!-- Header / Nav -->
+  <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/60 bg-white/80 dark:bg-white/0 border-b border-black/5 dark:border-white/10">
+    <div class="max-w-6xl mx-auto px-4">
+      <nav class="flex items-center justify-between h-16">
+        <a href="../index.html" class="font-semibold tracking-tight text-lg">
+          <span class="text-indigo-600 dark:text-indigo-400">Gasith</span> Sanduwara
+        </a>
+        <div class="hidden sm:flex items-center gap-6 text-sm">
+          <a href="../index.html#about" class="hover:text-indigo-600 dark:hover:text-indigo-400">About</a>
+          <a href="../index.html#projects" class="hover:text-indigo-600 dark:hover:text-indigo-400">Projects</a>
+          <a href="../index.html#blog" class="hover:text-indigo-600 dark:hover:text-indigo-400">Blog</a>
+          <a href="../index.html#contact" class="hover:text-indigo-600 dark:hover:text-indigo-400">Contact</a>
+
+          <!-- Theme toggle -->
+          <button id="themeToggle" class="ml-2 inline-flex items-center gap-2 rounded-xl border border-black/10 dark:border-white/10 px-3 py-1.5 hover:border-indigo-300 hover:shadow-sm transition">
+            <span class="dark:hidden" aria-hidden="true">🌙</span>
+            <span class="hidden dark:inline" aria-hidden="true">☀️</span>
+            <span class="text-xs">Theme</span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="py-10">
+    <div class="max-w-3xl mx-auto px-4">
+      <!-- Article card (glassy) -->
+      <div class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur p-6 sm:p-8 shadow-sm">
+        <header class="mb-6">
+          <h1 class="text-2xl sm:text-3xl font-bold">Supermassive Black Hole (SMBH)</h1>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Overview, types, formation theories, the Milky Way’s Sgr&nbsp;A*, and other galaxies</p>
+          <div class="mt-4 flex flex-wrap gap-3 text-xs text-gray-600 dark:text-gray-400">
+            <span class="rounded-lg px-2 py-1 border border-black/10 dark:border-white/10">Astrophysics</span>
+            <span class="rounded-lg px-2 py-1 border border-black/10 dark:border-white/10">Black Holes</span>
+          </div>
+        </header>
+
+        <!-- Content -->
+        <article class="prose prose-indigo max-w-none dark:prose-invert">
+          <p><strong>Supermassive black holes (SMBHs)</strong> are typically defined as black holes with masses above ~10<sup>5</sup> solar masses and below ~10<sup>10</sup> solar masses. They are among the densest and most powerful objects in the universe, and observations suggest that nearly every large galaxy hosts a central SMBH.</p>
+
+          <figure>
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjWjW9OQSOC7bc759MLDfmyICvNm6P8Ff8Mr8cSDwbIBSTR-BhYJ_7ibmdqwrsp-yEZt-_7us5bOYnCeT_HFMRhxvvoW8ISSF5sToyNDamSOhoHdKNpSE-FaxpDfg-Yw_KWkip4svBmrqz57tKzXg0kHuLGmCIk8rJMdenZdKbafOTZEWylnM-aVT1ozg/w400-h232/Black_hole_-_Messier_87.jpg" alt="M87* - first SMBH imaged by EHT" class="w-full rounded-xl">
+            <figcaption>M87* — first SMBH to be directly imaged</figcaption>
+          </figure>
+
+          <h2>Types of Black Holes</h2>
+          <ul>
+            <li><strong>Stellar-mass black holes</strong> — up to ~100 M<sub>☉</sub>; confirmed via gravitational waves and X-ray binaries.</li>
+            <li><strong>Intermediate-mass black holes</strong> — ~10<sup>3</sup>–10<sup>6</sup> M<sub>☉</sub>; candidates include dense cluster cores and possible primordial origins.</li>
+            <li><strong>Supermassive black holes</strong> — &gt;10<sup>5</sup> M<sub>☉</sub>; confirmed through multiple observational methods.</li>
+            <li><strong>Ultramassive black holes</strong> — &gt;10<sup>10</sup> M<sub>☉</sub>; the most extreme cases inferred from dynamics and lensing.</li>
+          </ul>
+
+          <p class="text-xs text-gray-500 dark:text-gray-400">Note: 1 solar mass (M<sub>☉</sub>) ≈ 2 × 10<sup>30</sup> kg.</p>
+
+          <h2>How Do SMBHs Form?</h2>
+          <figure>
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjuzVbWMWmLGPM0reSHH5wVEHjjbjdbKyjVfnY6N4fIdJbyB47dd6Z98pC1pKJu6d6gbimVYdhXG9avVdKgjFA2VIALaSlS3y0IjAUaCMMVRwcM2a3voef-dqk8ZWH3WYwNqERK1A2KaPS4NrGxgYElAs0urjJQ1c0hSJY5LGMSEAk7oWj5pKs8TGZZ1g/s320/image-Kepler-Nova-Keplers-Supernova-Chandra-X-ray.webp" alt="Kepler's supernova remnant" class="w-full rounded-xl">
+            <figcaption>Kepler’s Nova — supernova remnant</figcaption>
+          </figure>
+          <p>Several pathways are proposed:</p>
+          <ul>
+            <li><strong>Growth from stellar-mass seeds:</strong> core-collapse supernovae form black holes that accrete gas and merge over billions of years to reach SMBH scales.</li>
+            <li><strong>Direct collapse:</strong> massive, pristine gas clouds in the early universe may collapse directly into black holes (bypassing normal star formation), explaining very early SMBHs.</li>
+            <li><strong>Mergers:</strong> repeated black-hole mergers (as seen by LIGO for stellar-mass BHs) may help build up to intermediate and supermassive scales.</li>
+          </ul>
+
+          <h2>In the Milky Way</h2>
+          <figure>
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhray6oax0IsG86j03fKrNuPAfM0fHjh-0-RrHhi2TfeohJ2cJcSt0OOZPiXnHvaGJ3TzMeH0ZVdNYJg09g9L6BJK3I9pY91pI_RbdBapHOLzxYRkir4EZMEPXOi1jJxgAxNHSbaKznmfiAt58JLefoQvU5CdjZwVjBeaKeacf33IQw3rz_9zLaMyTUdQ/s320/EHT_Saggitarius_A_black_hole.tif.jpg" alt="EHT image of Sagittarius A*" class="w-full rounded-xl">
+            <figcaption>EHT image of Sagittarius A* (Sgr A*)</figcaption>
+          </figure>
+          <p>The Milky Way’s central SMBH, <strong>Sagittarius A*</strong>, lies ~26,000 light years away and has a mass of ≈4.15 million M<sub>☉</sub>. Its presence was inferred from stellar orbits and later imaged by the Event Horizon Telescope.</p>
+          <figure>
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgFGx-TmeP0ZPr2sniZiclQhH8rzRpjT2yRwRxPaQxdznBzq1pk3IYnzZZ_qnN8Z1mOo_WO8Sher3H2N4pqePlpD-5HX_AO2zD7dCddByE12b_cogUrrfRPG6NPV_wMWqC5pgkKYAt-zF-eScSkloy4NVBUeR-DEMuHmY_EC6RNcQhACZ77o1aY-BVWfw/s320/800px-X-RayFlare-BlackHole-MilkyWay-20140105.jpg" alt="X-ray flare of Sgr A*" class="w-full rounded-xl">
+            <figcaption>X-ray flare of Sgr A* (2013)</figcaption>
+          </figure>
+
+          <h2>Other Galaxies</h2>
+          <figure>
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1N3QVrdn171v93a2Rg7SJqrDohSrPfTlNWjgm1qTVz9duwBizrh-0T9KjvO1BCWj0u2bzYlB-Fr1kXuzgp2VxiQYniLIFCAvbMIhiIJykhLCkW9YzU4l90AokS-Yq3oDL4v3GQr6HMOhi5P3VrokitXuve88LIW4itr0o69DtfCNXWGR1Q-R2jY0G6Q/s320/Black_hole_-_Messier_87_crop_max_res.jpg" alt="M87* portrait" class="w-full rounded-xl">
+            <figcaption>M87*</figcaption>
+          </figure>
+          <p>Beyond the Milky Way, many galaxies host SMBHs far more massive than Sgr A*. In 2019, the EHT collaboration released the first direct image of a black hole’s shadow — <strong>M87*</strong> — with a mass of ~6.5 billion M<sub>☉</sub>.</p>
+          <figure>
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhzsaEmXlkA3J3YItqrUFnMrSwH4xkgsc4PyrQqKIDUNT0j1Pah18ue77UtYhg37GjISRLPjsSa-sO-7Oz5LjnIQsV7G9NEBBjFaMZeRW9Dfv_hMcBgU-CR7Uf-pE0WGey3dcjBwaVXu7Ry4qcgoFaAGASL3KrCLdoXWnJ6Tu8G54inxLsRkkvJRV1mBQ/s320/M87_jet.jpg" alt="M87 relativistic jet" class="w-full rounded-xl">
+            <figcaption>Relativistic jet from the center of M87</figcaption>
+          </figure>
+          <figure>
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjRbNW285Dw9vyqrP7efzuzwtG-sv6_FGYDaw04Jt_zZ8eDGyJF1a23lu0Rql12iVN8BCIfFW_2vpnYY2HiaVN6y5pbjGa6VmG7-S1DbajTtwiLwB_zDyyjWUIwlVg_oxzfKJCegOh5S6Gv7TF6QGiGh9IBp31wuyVorqTp8W4RWCS8hhNS3-ycFvcEJg/s320/image_2023-04-09_194143599.png" alt="Size comparison between M87* and Sgr A*" class="w-full rounded-xl">
+            <figcaption>Size comparison: M87* vs. Sgr&nbsp;A*</figcaption>
+          </figure>
+
+          <h2>Why SMBHs Matter</h2>
+          <p>SMBHs shape galaxy evolution: they regulate star formation, drive energetic outflows, and influence the growth and structure of galaxies. Understanding them helps explain how the universe built its largest structures.</p>
+        </article>
+
+        <!-- Back links -->
+        <div class="mt-8 flex items-center justify-between text-sm">
+          <a href="../index.html#blog" class="text-indigo-600 dark:text-indigo-400 hover:underline">← Back to Blog</a>
+          <a href="../index.html" class="hover:underline">Home</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-10 text-center text-xs text-gray-600 dark:text-gray-400">
+    © <span id="year"></span> Gasith Sanduwara
+  </footer>
+
+  <!-- Scripts: year + theme toggle -->
+  <script>
+    const yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    const btn = document.getElementById('themeToggle');
+    btn?.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>
