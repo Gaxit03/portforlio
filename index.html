@@ -401,16 +401,22 @@
           <!-- Slide 3 -->
           <article class="car-slide">
             <div class="car-card group ring-inset ring-1 ring-white/10">
-              <div class="aspect-video rounded-xl bg-gradient-to-br from-fuchsia-200/60 to-fuchsia-50/50 dark:from-fuchsia-500/10 dark:to-white/5 animate-floaty"></div>
-              <h3 class="mt-4 font-semibold">Newsletter</h3>
+              <div class="relative overflow-hidden rounded-xl">
+                <img src="gemo-anchor-super-hero.jpg" alt="Network Expansion"
+                     loading="lazy"
+                     class="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+                <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+              </div>
+              <h3 class="mt-4 font-semibold">Pandora Newsletter</h3>
               <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                Capable of providing latest updates on Movies, Games and Entertainment
+                Your best newlatter into the abyss of latest Entertainment world 
               </p>
-              <div class="mt-3 text-xs text-gray-500">PHP, MySQL, CSS, HTML, JavaScript</div>
-              <a href="#" class="mt-3 inline-block text-indigo-600 dark:text-indigo-400 text-sm hover:underline">Case Study →</a>
+              <div class="mt-3 text-xs text-gray-500">PHP, MySQL, HTML, CSS, JavaScript</div>
+              <a href="#" class="mt-3 inline-block text-indigo-600 dark:text-indigo-400 text-sm hover:underline">Project Report →</a>
             </div>
           </article>
-        </div>
+
+          
 
         <div class="edge-fade" aria-hidden="true"></div>
         <div class="car-dots" aria-hidden="false"></div>
@@ -450,7 +456,7 @@
                   Crash analysis of Air France flight 4590
                 </h3>
                 <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                  Comprehensive crash report into the first Concorde crash.
+                  Comprehensive report into the first Concorde crash ever occured
                 </p>
               </a>
               <div class="mt-3 flex items-center justify-between text-xs text-gray-500">
@@ -487,7 +493,7 @@
             <div class="car-card group ring-inset ring-1 ring-white/10">
               <a href="posts/kaizen-app-emailing.html" class="block">
                 <div class="relative overflow-hidden rounded-xl">
-                  <img src="assets/images/blog-kaizen.jpg" alt="Kaizen app emailing"
+                  <img src="Haas-Baku.jpg" alt="Kaizen app emailing"
                        loading="lazy"
                        class="aspect-[16/9] w-full object-cover bg-gray-100 dark:bg-[#121826] transition-transform duration-500 group-hover:scale-[1.03]" />
                   <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
@@ -498,6 +504,9 @@
                 <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
                   What is Cybersecurity ? Importance and Usecases.
                 </p>
+                <div class="mt-3 flex items-center justify-between text-xs text-gray-500">
+                <span>Aug 2025 • 7 min read</span>
+              </div>
               </a>
             </div>
           </article>
@@ -574,16 +583,42 @@
   </section>
 
   <!-- FOOTER -->
-  <footer class="py-10 border-t border-black/5 dark:border-white/10">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-500">
-      <div>© <span id="year"></span> Gasith Sanduwara</div>
-      <div class="flex items-center gap-4">
-        <a href="https://github.com/Gaxit03" class="hover:text-indigo-600 dark:hover:text-indigo-400">GitHub</a>
-        <a href="https://www.linkedin.com/in/gasith-sanduwara-396119280" class="hover:text-indigo-600 dark:hover:text-indigo-400">LinkedIn</a>
-        <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400">Resume</a>
-      </div>
+<footer class="py-10 border-t border-black/5 dark:border-white/10">
+  <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-500">
+
+    <!-- Copyright Left -->
+    <div class="order-2 sm:order-none">
+      © <span id="year"></span> Gasith Sanduwara
     </div>
-  </footer>
+
+    <!-- Social Media Icons Right -->
+    <div class="flex items-center gap-5 order-1 sm:order-none text-xl">
+      <a href="https://www.linkedin.com/in/gasith-sanduwara-396119280" target="_blank" class="hover:text-[#0A66C2]">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="https://github.com/Gaxit03" target="_blank" class="hover:text-gray-900 dark:hover:text-gray-100">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="https://www.youtube.com/@gasithsanduwara" target="_blank" class="hover:text-[#FF0000]">
+        <i class="fab fa-youtube"></i>
+      </a>
+      <a href="https://instagram.com/sanduwarag" target="_blank" class="hover:text-[#E4405F]">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://x.com/sanduwarag" target="_blank" class="hover:text-black dark:hover:text-white">
+        <i class="fab fa-x-twitter"></i>
+      </a>
+      <a href="https://discord.com/channels/@me" target="_blank" class="hover:text-[#5865F2]">
+        <i class="fab fa-discord"></i>
+      </a>
+    </div>
+
+  </div>
+</footer>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 
   <!-- Scripts: year, theme toggle, mobile menu, reveals, parallax, carousels -->
   <script>
@@ -742,4 +777,3 @@
   </script>
 </body>
 </html>
-
