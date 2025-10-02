@@ -104,30 +104,38 @@
     .carousel-shell{ position:relative; width:min(1100px,92vw); margin:1.25rem auto 0; }
     .carousel-pad{ min-height:420px; }
 
-    .car-track{
-      display:flex; gap:18px;
-      overflow-x:auto; overflow-y:hidden;
-      scroll-snap-type:x mandatory;
-      scroll-padding-inline: calc(50% - var(--slide-w, 420px)/2);
-      padding: 10px var(--fade-w);
-      scrollbar-width:none;
-      position:relative;
+    .car-track {
+  display: flex; gap: 18px;
+  overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: calc(50% - var(--slide-w, 420px)/2);
+  padding: 10px var(--fade-w);
+  scrollbar-width: none;
+  position: relative;
 
-      /* KEY FIX: fade edges with a mask (no painted color -> no white band) */
-      -webkit-mask-image: linear-gradient(to right,
-        rgba(0,0,0,0) 0,
-        rgba(0,0,0,1) var(--fade-w),
-        rgba(0,0,0,1) calc(100% - var(--fade-w)),
-        rgba(0,0,0,0) 100%);
-      mask-image: linear-gradient(to right,
-        rgba(0,0,0,0) 0,
-        rgba(0,0,0,1) var(--fade-w),
-        rgba(0,0,0,1) calc(100% - var(--fade-w)),
-        rgba(0,0,0,0) 100%);
-      -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
-      -webkit-mask-size:100% 100%; mask-size:100% 100%;
-      background-clip: padding-box; /* keep backgrounds tidy */
-    }
+  /* FIX: horizontal-only mask */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0,0,0,0) 0,
+    rgba(0,0,0,1) var(--fade-w),
+    rgba(0,0,0,1) calc(100% - var(--fade-w)),
+    rgba(0,0,0,0) 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    rgba(0,0,0,0) 0,
+    rgba(0,0,0,1) var(--fade-w),
+    rgba(0,0,0,1) calc(100% - var(--fade-w)),
+    rgba(0,0,0,0) 100%
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  /* important: only stretch across horizontally, not top/bottom */
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
     .car-track::-webkit-scrollbar{ display:none; }
 
     /* we REMOVED the .edge-fade element entirely */
@@ -603,4 +611,5 @@
   </script>
 </body>
 </html>
+
 
