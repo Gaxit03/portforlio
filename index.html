@@ -42,16 +42,12 @@
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <!-- Favicon (optional) -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚙️</text></svg>">
 
+  <!-- Minimal utilities for parallax, masks, reveals + carousel -->
   <style>
-    /* Light/dark page background var (used by some effects) */
-    html { --page-bg: #f9fafb; }
-    html.dark { --page-bg: #0b0e14; }
-    html[data-theme="light"] { --page-bg: #f9fafb; }
-    html[data-theme="dark"]  { --page-bg: #0b0e14; }
-
-    /* Background grid */
+    /* Background grid subtlety tuned for light/dark */
     .bg-grid {
       background:
         linear-gradient(to right, rgba(0,0,0,.06) 1px, transparent 1px),
@@ -64,9 +60,11 @@
         linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
     }
 
-    /* Parallax + masks */
+    /* Parallax container */
     .parallax { perspective: 1000px; transform-style: preserve-3d; will-change: transform; }
     .parallax-item { transform: translateZ(0); will-change: transform; }
+
+    /* Soft edge blend (radial mask on the portrait) */
     .soft-mask {
       -webkit-mask-image: radial-gradient(60% 60% at 70% 50%, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
       mask-image: radial-gradient(60% 60% at 70% 50%, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
@@ -84,9 +82,11 @@
       mask-composite: intersect;
     }
 
+    /* Reveal-on-scroll (for cards) */
     .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
     .reveal.show { opacity: 1; transform: translateY(0); }
 
+    /* Mobile navigation overlay */
     .mobile-nav-enter { transform: translateY(-8px); opacity: 0; }
     .mobile-nav-enter.active { transform: translateY(0); opacity: 1; transition: transform .2s ease, opacity .2s ease; }
 
@@ -99,73 +99,77 @@
       .animate-floaty { animation: none !important; }
     }
 
-    /* ====== Carousel (Projects + Blog) ====== */
-    :root { --fade-w: 60px; }
-    .carousel-shell{ position:relative; width:min(1100px,92vw); margin:1.25rem auto 0; }
-    .carousel-pad{ min-height:420px; }
+    /* ====== Carousel (shared for Projects + Blog) ====== */
+    :root{ --fade-w: 60px; }
+    html[data-theme="light"] { --page-bg: #f9fafb; }
+    html[data-theme="dark"]  { --page-bg: #0b0e14; }
 
-    .car-track {
-  display: flex; gap: 18px;
-  overflow-x: auto; overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: calc(50% - var(--slide-w, 420px)/2);
-  padding: 10px var(--fade-w);
-  scrollbar-width: none;
-  position: relative;
+    .carousel-shell{
+      position: relative;
+      width: min(1100px, 92vw);
+      margin: 1.25rem auto 0 auto;
+    }
+    /* Section tall enough to show emphasized card */
+    .carousel-pad{ min-height: 420px; }
 
-  /* FIX: horizontal-only mask */
-  -webkit-mask-image: linear-gradient(
-    to right,
-    rgba(0,0,0,0) 0,
-    rgba(0,0,0,1) var(--fade-w),
-    rgba(0,0,0,1) calc(100% - var(--fade-w)),
-    rgba(0,0,0,0) 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    rgba(0,0,0,0) 0,
-    rgba(0,0,0,1) var(--fade-w),
-    rgba(0,0,0,1) calc(100% - var(--fade-w)),
-    rgba(0,0,0,0) 100%
-  );
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-
-  /* important: only stretch across horizontally, not top/bottom */
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-}
-
+    /* Track */
+    .car-track{
+      display:flex; gap:18px;
+      overflow-x:auto; overflow-y:visible;   /* allow glow/ring breathing room */
+      scroll-snap-type:x mandatory;
+      scroll-padding-inline: calc(50% - var(--slide-w, 420px)/2);
+      padding: 16px var(--fade-w) 20px var(--fade-w);
+      scrollbar-width:none;
+      position: relative;
+    }
     .car-track::-webkit-scrollbar{ display:none; }
 
-    /* we REMOVED the .edge-fade element entirely */
-
-    .car-slide{
-      flex:0 0 var(--slide-w,420px);
-      scroll-snap-align:center;
-      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    /* Edge fades that blend into the section background */
+    .edge-fade{
+      position:absolute; inset:0; pointer-events:none;
     }
-    .car-slide:hover{ transform: translateY(-6px) scale(1.03); }
-    .car-slide.is-center{
+    .edge-fade::before,
+    .edge-fade::after{
+      content:""; position:absolute; top:0; bottom:0; width:var(--fade-w); z-index:3;
+    }
+    .edge-fade::before{ left:0;  background:linear-gradient(90deg, var(--page-bg) 0%, transparent 100%); }
+    .edge-fade::after{  right:0; background:linear-gradient(270deg, var(--page-bg) 0%, transparent 100%); }
+
+    /* Slide base (slide contains a .car-card) */
+    .car-slide{
+      flex: 0 0 var(--slide-w, 420px);
+      scroll-snap-align:center;
+    }
+
+    /* Card visuals */
+    .car-card{
+      border-radius: 1rem; /* 2xl */
+      border: 1px solid rgba(0,0,0,.10);
+      background: rgba(255,255,255,.70);
+      backdrop-filter: blur(8px);
+      padding: 1.25rem; /* p-5 */
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, outline-color .25s ease, opacity .25s ease;
+      outline: 1px solid transparent;
+      outline-offset: -1px;
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+    }
+    .dark .car-card{
+      border-color: rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+    }
+
+    /* Hover and center emphasis */
+    .car-slide:hover .car-card{
+      transform: translateY(-6px) scale(1.03);
+    }
+    .car-slide.is-center .car-card{
       transform: translateY(-6px) scale(1.03);
       box-shadow: 0 16px 44px rgba(0,0,0,.16);
-      outline: 1px solid rgba(99,102,241,.35);
-      outline-offset: -1px;
-      border-color: rgba(99,102,241,.35) !important;
+      outline-color: rgba(99,102,241,.35); /* indigo-ish */
+      border-color: rgba(99,102,241,.35);
     }
 
-    .car-arrow{
-      position:absolute; top:50%; transform:translateY(-50%);
-      z-index:4; border:1px solid rgba(0,0,0,.08);
-      background:rgba(255,255,255,.8); backdrop-filter:blur(6px);
-      color:#111827; width:44px; height:44px; border-radius:999px;
-      display:grid; place-items:center; cursor:pointer; user-select:none;
-      transition: transform .15s ease, background .2s ease, border-color .2s ease;
-    }
-    .dark .car-arrow{ border-color:rgba(255,255,255,.14); background:rgba(16,20,28,.6); color:#fff; }
-    .car-arrow:hover{ transform:translateY(-50%) scale(1.06); }
-    .car-arrow.left{ left:6px; } .car-arrow.right{ right:6px; }
-
+    /* Optional dots */
     .car-dots{ display:flex; gap:10px; justify-content:center; margin-top:12px; }
     .car-dot{
       width:8px; height:8px; border-radius:999px; background:#cfd6e3;
@@ -174,23 +178,35 @@
     }
     .dark .car-dot{ background:#3a4a66; border-color:rgba(255,255,255,.15); }
     .car-dot.active{ background:#6366f1; width:22px; }
-    .project-card img{
-      max-width:100%;
-      height: auto;
-      display: block;
+
+    /* Arrows */
+    .car-arrow{
+      position:absolute; top:50%; transform:translateY(-50%);
+      z-index:4;
+      border:1px solid rgba(0,0,0,.08);
+      background:rgba(255,255,255,.8);
+      backdrop-filter: blur(6px);
+      color:#111827;
+      width:44px; height:44px; border-radius:999px;
+      display:grid; place-items:center; cursor:pointer; user-select:none;
+      transition: transform .15s ease, background .2s ease, border-color .2s ease;
     }
-    .project-card .image-container{
-      height: auto;
-      min-height: unset;
-      background: none;
+    .dark .car-arrow{
+      border-color: rgba(255,255,255,.14);
+      background:rgba(16,20,28,.6);
+      color:#fff;
     }
+    .car-arrow:hover{ transform:translateY(-50%) scale(1.06); }
+    .car-arrow.left{ left:6px; } .car-arrow.right{ right:6px; }
   </style>
 </head>
 
 <body class="min-h-screen bg-gray-50 text-gray-800 dark:bg-[#0b0e14] dark:text-gray-100 antialiased selection:bg-indigo-200/60 selection:text-indigo-900 dark:selection:bg-indigo-400/30 dark:selection:text-indigo-50">
 
   <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10">
+    <!-- soft radial glow -->
     <div class="absolute inset-0 bg-[radial-gradient(60%_40%_at_50%_10%,rgba(99,102,241,0.12),transparent_60%)] dark:bg-[radial-gradient(60%_40%_at_50%_10%,rgba(99,102,241,0.18),transparent_60%)]"></div>
+    <!-- ultra-light grid -->
     <div class="absolute inset-0 bg-grid opacity-40"></div>
   </div>
 
@@ -202,6 +218,7 @@
           <span class="text-indigo-600 dark:text-indigo-400">Gasith</span> Sanduwara
         </a>
 
+        <!-- Desktop links -->
         <div class="hidden sm:flex items-center gap-6 text-sm">
           <a href="#about" class="hover:text-indigo-600 dark:hover:text-indigo-400">About</a>
           <a href="#projects" class="hover:text-indigo-600 dark:hover:text-indigo-400">Projects</a>
@@ -209,17 +226,19 @@
           <a href="#blog" class="hover:text-indigo-600 dark:hover:text-indigo-400">Blog</a>
         </div>
 
-        <button id="menuBtn" class="sm:hidden inline-flex items-center justify-center rounded-lg p-2 hover:bg-black/5 dark:hover:bg:white/10" aria-label="Open menu">
+        <!-- Mobile hamburger -->
+        <button id="menuBtn" class="sm:hidden inline-flex items-center justify-center rounded-lg p-2 hover:bg-black/5 dark:hover:bg-white/10" aria-label="Open menu">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/></svg>
         </button>
       </nav>
 
+      <!-- Mobile menu -->
       <div id="mobileNav" class="sm:hidden hidden mobile-nav-enter">
         <div class="mt-2 grid gap-2 pb-3">
           <a href="#about" class="px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10">About</a>
           <a href="#projects" class="px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10">Projects</a>
           <a href="#contact" class="px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10">Contact</a>
-          <a href="#blog" class="px-3 py-2 rounded-lg hover:bg:black/5 dark:hover:bg-white/10">Blog</a>
+          <a href="#blog" class="px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10">Blog</a>
           <button id="themeToggleSm" class="justify-self-start rounded-lg px-3 py-2 border border-black/10 dark:border-white/10">Toggle Theme</button>
         </div>
       </div>
@@ -229,6 +248,7 @@
   <!-- HERO -->
   <section class="relative">
     <div class="relative grid md:grid-cols-2 items-center min-h-[70vh] md:min-h-[86vh] bg-[#0b1120] text-white overflow-hidden">
+      <!-- Left Content -->
       <div class="px-6 sm:px-10 md:px-12 lg:px-16 py-12 md:py-0 z-10">
         <h1 class="text-4xl sm:text-5xl font-bold leading-tight">
           Computing <br />
@@ -238,19 +258,23 @@
           Student, Photographer and curious thinker who would love to view
           the world on a broader view.
         </p>
+
         <div class="mt-8 flex flex-wrap gap-3">
           <a href="#projects" class="px-5 py-3 rounded-lg bg-purple-500 hover:bg-purple-600 font-medium">View Projects</a>
           <a href="#contact" class="px-5 py-3 rounded-lg bg-gray-800 hover:bg-gray-700 font-medium">Contact Me</a>
           <a href="/cv.pdf" class="px-5 py-3 rounded-lg bg-gray-800 hover:bg-gray-700 font-medium">Download CV</a>
         </div>
+
         <div class="mt-8 h-[3px] w-40 rounded-full bg-gradient-to-r from-transparent via-white/60 to-transparent bg-[length:200%_100%] animate-shimmer"></div>
       </div>
 
+      <!-- Right Image (Parallax + blended edges) -->
       <div class="relative parallax h-[46vh] md:h-full">
         <div class="absolute inset-0">
           <div class="absolute -right-24 top-10 h-80 w-80 md:h-[28rem] md:w-[28rem] rounded-full blur-3xl opacity-40 bg-purple-500/40 animate-floaty"></div>
         </div>
-        <div id="heroImg" class="parallax-item absolute right-0 top-0 h-full w-full md:w:[52vw]">
+
+        <div id="heroImg" class="parallax-item absolute right-0 top-0 h-full w-full md:w-[52vw]">
           <img
             src="PXL_20250912_065158091 (1)~2.jpg"
             alt="Profile"
@@ -300,57 +324,66 @@
         <a href="https://github.com/" target="_blank" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">See all on GitHub →</a>
       </div>
 
+      <!-- Carousel Shell -->
       <div class="carousel-shell" data-carousel data-slide-w="clamp(280px, 70vw, 420px)">
         <button class="car-arrow left" aria-label="Previous project" data-dir="-1">❮</button>
         <button class="car-arrow right" aria-label="Next project" data-dir="1">❯</button>
 
         <div class="car-track" role="region" aria-roledescription="carousel" aria-label="Projects">
-          <article class="car-slide group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur p-5 transition hover:shadow-sm reveal">
-            <div class="relative overflow-hidden rounded-xl">
-              <img src="Solar-Panel.jpg" alt="Solar Power Analysis" loading="lazy"
-                   class="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
-              <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+          <!-- Slide 1 -->
+          <article class="car-slide">
+            <div class="car-card group ring-inset ring-1 ring-white/10">
+              <div class="relative overflow-hidden rounded-xl">
+                <img src="Solar-Panel.jpg" alt="Solar Power Analysis"
+                     loading="lazy"
+                     class="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+                <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+              </div>
+              <h3 class="mt-4 font-semibold">Solar Power Analysis (R)</h3>
+              <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                Statistical inference on adoption factors; 5 interpretations with charts and a clean report.
+              </p>
+              <div class="mt-3 text-xs text-gray-500">R, ggplot2, dplyr</div>
+              <a href="https://github.com/ComputerScienceSJP/SDI-PROJECT-group-15"
+                 class="mt-3 inline-block text-indigo-600 dark:text-indigo-400 text-sm hover:underline">
+                 Repo / Report →
+              </a>
             </div>
-            <h3 class="mt-4 font-semibold">Solar Power Analysis (R)</h3>
-            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Statistical inference on adoption factors; 5 interpretations with charts and a clean report.</p>
-            <div class="mt-3 text-xs text-gray-500">R, ggplot2, dplyr</div>
-            <a href="https://github.com/ComputerScienceSJP/SDI-PROJECT-group-15" class="mt-3 inline-block text-indigo-600 dark:text-indigo-400 text-sm hover:underline">Repo / Report →</a>
           </article>
 
-          <article class="car-slide group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur p-5 transition hover:shadow-sm reveal">
-            <div class="relative overflow-hidden rounded-xl">
-              <img src="Screenshot-(74).png" alt="Network Expansion" loading="lazy"
-                   class="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
-              <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+          <!-- Slide 2 -->
+          <article class="car-slide">
+            <div class="car-card group ring-inset ring-1 ring-white/10">
+              <div class="relative overflow-hidden rounded-xl">
+                <img src="Screenshot-(74).png" alt="Network Expansion"
+                     loading="lazy"
+                     class="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+                <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+              </div>
+              <h3 class="mt-4 font-semibold">Network Expansion for Meraki Solutions</h3>
+              <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                Upgraded network package with sophisticated devices which capable of further expansion
+              </p>
+              <div class="mt-3 text-xs text-gray-500">Cisco Packet Tracer, Windows Server Management</div>
+              <a href="#" class="mt-3 inline-block text-indigo-600 dark:text-indigo-400 text-sm hover:underline">Project Report →</a>
             </div>
-            <h3 class="mt-4 font-semibold">Network Expansion for Meraki Solutions</h3>
-            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Upgraded network package with sophisticated devices which capable of further expansion</p>
-            <div class="mt-3 text-xs text-gray-500">Cisco Packet Tracer, Windows Server Management</div>
-            <a href="#" class="mt-3 inline-block text-indigo-600 dark:text-indigo-400 text-sm hover:underline">Project Report →</a>
           </article>
 
-          <article class="car-slide group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur p-5 transition hover:shadow-sm reveal">
-            <div class="aspect-video rounded-xl bg-gradient-to-br from-fuchsia-200/60 to-fuchsia-50/50 dark:from-fuchsia-500/10 dark:to-white/5 animate-floaty"></div>
-            <h3 class="mt-4 font-semibold">GPV Kaizen App</h3>
-            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Idea submission, manager ranking, email notifications, and dashboards.</p>
-            <div class="mt-3 text-xs text-gray-500">PHP, MySQL, PHPMailer</div>
-            <a href="#" class="mt-3 inline-block text-indigo-600 dark:text-indigo-400 text-sm hover:underline">Case Study →</a>
-          </article>
-
-          <article class="car-slide group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur p-5 transition hover:shadow-sm reveal">
-            <div class="relative overflow-hidden rounded-xl">
-              <img src="Screenshot-(74).png" alt="Network Expansion" loading="lazy"
-                   class="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
-              <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+          <!-- Slide 3 -->
+          <article class="car-slide">
+            <div class="car-card group ring-inset ring-1 ring-white/10">
+              <div class="aspect-video rounded-xl bg-gradient-to-br from-fuchsia-200/60 to-fuchsia-50/50 dark:from-fuchsia-500/10 dark:to-white/5 animate-floaty"></div>
+              <h3 class="mt-4 font-semibold">GPV Kaizen App</h3>
+              <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                Idea submission, manager ranking, email notifications, and dashboards.
+              </p>
+              <div class="mt-3 text-xs text-gray-500">PHP, MySQL, PHPMailer</div>
+              <a href="#" class="mt-3 inline-block text-indigo-600 dark:text-indigo-400 text-sm hover:underline">Case Study →</a>
             </div>
-            <h3 class="mt-4 font-semibold">Network Expansion for Meraki Solutions</h3>
-            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Upgraded network package with sophisticated devices which capable of further expansion</p>
-            <div class="mt-3 text-xs text-gray-500">Cisco Packet Tracer, Windows Server Management</div>
-            <a href="#" class="mt-3 inline-block text-indigo-600 dark:text-indigo-400 text-sm hover:underline">Project Report →</a>
           </article>
         </div>
 
-        <!-- edge-fade element REMOVED -->
+        <div class="edge-fade" aria-hidden="true"></div>
         <div class="car-dots" aria-hidden="false"></div>
       </div>
     </div>
@@ -368,61 +401,91 @@
         Things I would like to share with others....
       </p>
 
+      <!-- Carousel Shell -->
       <div class="carousel-shell" data-carousel data-slide-w="clamp(280px, 70vw, 420px)">
         <button class="car-arrow left" aria-label="Previous post" data-dir="-1">❮</button>
-        <button class="car-arrow right" aria-label="Next post" data-dir="1">❯</button>
+        <button class="car-arrow right" aria-label="Next post"  data-dir="1">❯</button>
 
         <div class="car-track" role="region" aria-roledescription="carousel" aria-label="Blog posts">
-          <article class="car-slide group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur p-5 hover:shadow-sm transition reveal">
-            <a href="blog.html" class="block">
-              <div class="relative overflow-hidden rounded-xl">
-                <img src="Aerospatiale-BAC_Concorde_101,_Air_France_AN0702255.jpg" alt="Concorde crash analysis" loading="lazy"
-                     class="aspect-[16/9] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
-                <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+          <!-- Post 1 -->
+          <article class="car-slide">
+            <div class="car-card group ring-inset ring-1 ring-white/10">
+              <a href="blog.html" class="block">
+                <div class="relative overflow-hidden rounded-xl">
+                  <img src="Aerospatiale-BAC_Concorde_101,_Air_France_AN0702255.jpg" alt="Concorde crash analysis"
+                       loading="lazy"
+                       class="aspect-[16/9] w-full object-cover bg-gray-100 dark:bg-[#121826] transition-transform duration-500 group-hover:scale-[1.03]" />
+                  <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                </div>
+                <h3 class="mt-4 font-semibold group-hover:underline">
+                  Crash analysis of Air France flight 4590
+                </h3>
+                <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                  Comprehensive crash report into the first Concorde crash.
+                </p>
+              </a>
+              <div class="mt-3 flex items-center justify-between text-xs text-gray-500">
+                <span>Sep 2025 • 5 min read</span>
               </div>
-              <h3 class="mt-4 font-semibold group-hover:underline">Crash analyzis of Air France flight 4790</h3>
-              <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Comprehensive crash report into the first concord crash ever</p>
-            </a>
-            <div class="mt-3 flex items-center justify-between text-xs text-gray-500"><span>Sep 2025 • 5 min read</span></div>
+            </div>
           </article>
 
-          <article class="car-slide group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur p-5 hover:shadow-sm transition reveal">
-            <a href="smbh.html" class="block">
-              <div class="relative overflow-hidden rounded-xl">
-                <img src="m87.jpg" alt="SMBH" loading="lazy"
-                     class="aspect-[16/9] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
-                <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+          <!-- Post 2 -->
+          <article class="car-slide">
+            <div class="car-card group ring-inset ring-1 ring-white/10">
+              <a href="smbh.html" class="block">
+                <div class="relative overflow-hidden rounded-xl">
+                  <img src="m87.jpg" alt="SMBH"
+                       loading="lazy"
+                       class="aspect-[16/9] w-full object-cover bg-gray-100 dark:bg-[#121826] transition-transform duration-500 group-hover:scale-[1.03]" />
+                  <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                </div>
+                <h3 class="mt-4 font-semibold group-hover:underline">
+                  Super Massive Black Holes
+                </h3>
+                <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                  Descriptive study of the most mysterious object in the Universe.
+                </p>
+              </a>
+              <div class="mt-3 flex items-center justify-between text-xs text-gray-500">
+                <span>Aug 2025 • 7 min read</span>
               </div>
-              <h3 class="mt-4 font-semibold group-hover:underline">Super Massive Black Holes</h3>
-              <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Descriptive study of the most mysterious object in the Universe</p>
-            </a>
-            <div class="mt-3 flex items-center justify-between text-xs text-gray-500"><span>Aug 2025 • 7 min read</span></div>
+            </div>
           </article>
 
-          <article class="car-slide group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur p-5 hover:shadow-sm transition reveal">
-            <a href="posts/kaizen-app-emailing.html" class="block">
-              <div class="relative overflow-hidden rounded-xl">
-                <img src="assets/images/blog-kaizen.jpg" alt="Kaizen app emailing" loading="lazy"
-                     class="aspect-[16/9] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
-                <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
-              </div>
-              <h3 class="mt-4 font-semibold group-hover:underline">Shipping Email Notifications in a PHP/MySQL Kaizen App</h3>
-              <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Schema decisions, PHPMailer pitfalls, and reliability checks.</p>
-            </a>
-            <div class="mt-3 flex items-center justify-between text-xs text-gray-500">
-              <span>Jul 2025 • 6 min read</span>
-              <div class="flex gap-2">
-                <span class="rounded-lg px-2 py-1 border border-black/10 dark:border-white/10">PHP</span>
-                <span class="rounded-lg px-2 py-1 border border-black/10 dark:border-white/10">Backend</span>
+          <!-- Post 3 -->
+          <article class="car-slide">
+            <div class="car-card group ring-inset ring-1 ring-white/10">
+              <a href="posts/kaizen-app-emailing.html" class="block">
+                <div class="relative overflow-hidden rounded-xl">
+                  <img src="assets/images/blog-kaizen.jpg" alt="Kaizen app emailing"
+                       loading="lazy"
+                       class="aspect-[16/9] w-full object-cover bg-gray-100 dark:bg-[#121826] transition-transform duration-500 group-hover:scale-[1.03]" />
+                  <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                </div>
+                <h3 class="mt-4 font-semibold group-hover:underline">
+                  Shipping Email Notifications in a PHP/MySQL Kaizen App
+                </h3>
+                <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                  Schema decisions, PHPMailer pitfalls, and reliability checks.
+                </p>
+              </a>
+              <div class="mt-3 flex items-center justify-between text-xs text-gray-500">
+                <span>Jul 2025 • 6 min read</span>
+                <div class="flex gap-2">
+                  <span class="rounded-lg px-2 py-1 border border-black/10 dark:border-white/10">PHP</span>
+                  <span class="rounded-lg px-2 py-1 border border-black/10 dark:border-white/10">Backend</span>
+                </div>
               </div>
             </div>
           </article>
         </div>
 
-        <!-- edge-fade element REMOVED -->
+        <div class="edge-fade" aria-hidden="true"></div>
         <div class="car-dots" aria-hidden="false"></div>
       </div>
 
+      <!-- (Optional) Simple pager -->
       <div class="mt-8 flex items-center justify-center gap-2">
         <a href="#" class="rounded-lg px-3 py-1.5 border border-black/10 dark:border-white/10 hover:border-indigo-300">← Newer</a>
         <a href="#" class="rounded-lg px-3 py-1.5 border border-black/10 dark:border-white/10 hover:border-indigo-300">Older →</a>
@@ -435,6 +498,7 @@
     <div class="max-w-6xl mx-auto px-6">
       <h2 class="text-2xl font-semibold mb-10">Education</h2>
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- College 1 -->
         <div class="flex items-start space-x-4">
           <div class="flex-shrink-0">
             <img src="images.png" alt="University 1 Logo" class="w-14 h-14 rounded-full bg-white p-2 shadow-md" />
@@ -444,17 +508,17 @@
             <p class="text-sm text-green-100">B.Comp.(Hons) Information Systems (Faculty of Computing)<br/>2024 – Present</p>
           </div>
         </div>
-
+        <!-- College 2 -->
         <div class="flex items-start space-x-4">
           <div class="flex-shrink-0">
             <img src="Oaf4hONm_400x400.jpg" alt="University 2 Logo" class="w-14 h-14 rounded-full bg-white p-2 shadow-md" />
           </div>
           <div>
-            <h3 class="font-bold text-lg">National Institue of Business Management</h3>
+            <h3 class="font-bold text-lg">National Institute of Business Management</h3>
             <p class="text-sm text-green-100">Diploma in Network Engineering <br/>2023-2024</p>
           </div>
         </div>
-
+        <!-- High School -->
         <div class="flex items-start space-x-4">
           <div class="flex-shrink-0">
             <img src="images (1).png" alt="School Logo" class="w-14 h-14 rounded-full bg-white p-2 shadow-md" />
@@ -499,19 +563,24 @@
     </div>
   </footer>
 
-  <!-- Scripts -->
+  <!-- Scripts: year, theme toggle, mobile menu, reveals, parallax, carousels -->
   <script>
+    // Footer year
     const yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+    // Theme toggle
     function toggleTheme() {
       const isDark = document.documentElement.classList.toggle('dark');
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
       document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
     }
+    const btn = document.getElementById('themeToggle');
     const btnSm = document.getElementById('themeToggleSm');
+    if (btn) btn.addEventListener('click', toggleTheme);
     if (btnSm) btnSm.addEventListener('click', toggleTheme);
 
+    // Mobile nav
     const menuBtn = document.getElementById('menuBtn');
     const mobileNav = document.getElementById('mobileNav');
     if (menuBtn && mobileNav) {
@@ -522,12 +591,16 @@
       });
     }
 
+    // Reveal on scroll
     const revealEls = document.querySelectorAll('.reveal');
     const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); io.unobserve(e.target); } });
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('show'); io.unobserve(e.target); }
+      });
     }, { threshold: 0.15 });
     revealEls.forEach(el => io.observe(el));
 
+    // Parallax effect (desktop only / respects reduced motion)
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const heroImg = document.getElementById('heroImg');
     function parallax() {
@@ -545,7 +618,7 @@
       window.addEventListener('resize', parallax);
     }
 
-    /* Carousel */
+    // ===== Multiple Carousel Initializer =====
     function setupCarousel(root){
       const track = root.querySelector('.car-track');
       const slides = Array.from(track.querySelectorAll('.car-slide'));
@@ -553,23 +626,32 @@
       const right = root.querySelector('.car-arrow.right');
       const dotsWrap = root.querySelector('.car-dots');
 
+      // per-carousel width via data-slide-w
       const customW = root.getAttribute('data-slide-w');
-      if (customW) { track.style.setProperty('--slide-w', customW); slides.forEach(s => s.style.setProperty('--slide-w', customW)); }
+      if (customW) {
+        track.style.setProperty('--slide-w', customW);
+        slides.forEach(s => s.style.setProperty('--slide-w', customW));
+      }
 
-      dotsWrap.innerHTML = '';
-      slides.forEach((_, i) => {
-        const d = document.createElement('button');
-        d.className = 'car-dot'; d.type='button'; d.setAttribute('aria-label', 'Go to slide ' + (i+1));
-        d.addEventListener('click', () => centerSlide(i));
-        dotsWrap.appendChild(d);
-      });
-      const dots = Array.from(dotsWrap.children);
+      // dots
+      if (dotsWrap){
+        dotsWrap.innerHTML = '';
+        slides.forEach((_, i) => {
+          const d = document.createElement('button');
+          d.className = 'car-dot'; d.type='button';
+          d.setAttribute('aria-label', 'Go to slide ' + (i+1));
+          d.addEventListener('click', () => centerSlide(i));
+          dotsWrap.appendChild(d);
+        });
+      }
+      const dots = dotsWrap ? Array.from(dotsWrap.children) : [];
 
       function centerSlide(i){
         const el = slides[i];
         const x = el.offsetLeft - (track.clientWidth - el.clientWidth)/2;
         track.scrollTo({ left: x, behavior: 'smooth' });
       }
+
       function computeCenterIndex(){
         const mid = track.scrollLeft + track.clientWidth/2;
         let best = 0, bestDist = Infinity;
@@ -580,36 +662,61 @@
         });
         return best;
       }
+
       function updateCenter(){
         const i = computeCenterIndex();
         slides.forEach((s, k) => s.classList.toggle('is-center', k === i));
-        dots.forEach((d, k) => d.classList.toggle('active', k === i));
+        if (dots.length) dots.forEach((d, k) => d.classList.toggle('active', k === i));
       }
 
-      window.addEventListener('load', () => { const start = Math.floor(slides.length/2); centerSlide(start); setTimeout(updateCenter, 350); });
-
-      let rafId = null;
-      track.addEventListener('scroll', () => { if (rafId) cancelAnimationFrame(rafId); rafId = requestAnimationFrame(updateCenter); });
-
-      left.addEventListener('click', () => { const i = computeCenterIndex(); centerSlide(Math.max(0, i - 1)); });
-      right.addEventListener('click', () => { const i = computeCenterIndex(); centerSlide(Math.min(slides.length - 1, i + 1)); });
-
-      track.tabIndex = 0;
-      track.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft'){ e.preventDefault(); left.click(); }
-        if (e.key === 'ArrowRight'){ e.preventDefault(); right.click(); }
+      // Start centered on middle slide
+      window.addEventListener('load', () => {
+        const start = Math.floor(slides.length/2);
+        centerSlide(start);
+        setTimeout(updateCenter, 350);
       });
 
+      let rafId = null;
+      track.addEventListener('scroll', () => {
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(updateCenter);
+      });
+
+      // arrows
+      if (left) left.addEventListener('click', () => {
+        const i = computeCenterIndex();
+        centerSlide(Math.max(0, i - 1));
+      });
+      if (right) right.addEventListener('click', () => {
+        const i = computeCenterIndex();
+        centerSlide(Math.min(slides.length - 1, i + 1));
+      });
+
+      // keyboard when track focused
+      track.tabIndex = 0;
+      track.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft'){ e.preventDefault(); if (left) left.click(); }
+        if (e.key === 'ArrowRight'){ e.preventDefault(); if (right) right.click(); }
+      });
+
+      // pointer drag
       let startX = 0, startScroll = 0, dragging = false;
-      track.addEventListener('pointerdown', (e) => { dragging = true; startX = e.clientX; startScroll = track.scrollLeft; track.setPointerCapture(e.pointerId); });
-      track.addEventListener('pointermove', (e) => { if (!dragging) return; track.scrollLeft = startScroll - (e.clientX - startX); });
+      track.addEventListener('pointerdown', (e) => {
+        dragging = true; startX = e.clientX; startScroll = track.scrollLeft;
+        track.setPointerCapture(e.pointerId);
+      });
+      track.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        track.scrollLeft = startScroll - (e.clientX - startX);
+      });
       track.addEventListener('pointerup', () => { dragging = false; updateCenter(); });
 
+      // resize
       window.addEventListener('resize', () => { setTimeout(updateCenter, 120); });
     }
+
+    // Mount all carousels
     document.querySelectorAll('[data-carousel]').forEach(setupCarousel);
   </script>
 </body>
 </html>
-
-
