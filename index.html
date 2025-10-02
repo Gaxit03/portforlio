@@ -171,22 +171,34 @@
 
     /* Card visuals */
     /* ---- PATCH: remove white/milky backgrounds on slides ---- */
+/* === Dark Glass Cards with Glow Borders === */
 .car-card{
-  background: transparent !important;      /* no white */
-  backdrop-filter: none !important;        /* avoid milky glass effect */
-  border-color: rgba(255,255,255,.10);     /* keep subtle border */
+  background: rgba(16,20,28,0.65);              /* dark translucent glass */
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  backdrop-filter: blur(10px) saturate(120%);
+  border: 1px solid rgba(99,102,241,0.35);      /* indigo outline */
+  border-radius: 1rem;
+  box-shadow: 0 0 12px rgba(99,102,241,0.15);   /* subtle glow */
+  transition: transform .25s ease,
+              border-color .25s ease,
+              box-shadow .25s ease;
 }
-html[data-theme="light"] .car-card{
-  border-color: rgba(0,0,0,.10);
-}
-/* optional subtle glass (non-white) */
-html[data-theme="light"] .car-card{ background: rgba(255,255,255,.12) !important; backdrop-filter: blur(6px); }
-html[data-theme="dark"]  .car-card{ background: rgba(16,20,28,.30)   !important; backdrop-filter: blur(6px); }
 
-/* Images inside cards shouldn’t force a light bg */
-.car-card img{
-  background: transparent !important;      /* kills bg-gray-100, etc. */
+/* Light theme variant */
+html[data-theme="light"] .car-card{
+  background: rgba(255,255,255,0.08);           /* light frosted glass */
+  border: 1px solid rgba(99,102,241,0.35);
+  box-shadow: 0 0 10px rgba(99,102,241,0.10);
 }
+
+/* Emphasized center card */
+.car-slide.is-center .car-card{
+  transform: translateY(-6px) scale(1.03);
+  border-color: rgba(99,102,241,0.65);
+  box-shadow: 0 0 18px rgba(99,102,241,0.30);
+}
+
+    
 
     .dark .car-card{
       border-color: rgba(255,255,255,.10);
@@ -758,5 +770,6 @@ html[data-theme="dark"]  .car-card{ background: rgba(16,20,28,.30)   !important;
   </script>
 </body>
 </html>
+
 
 
