@@ -108,45 +108,39 @@
       position: relative;
       width: min(1100px, 92vw);
       margin: 1.25rem auto 0 auto;
+      isolation: isolate;        /* stable compositing */
     }
     /* Section tall enough to show emphasized card */
     .carousel-pad{ min-height: 420px; }
 
-    /* Track */
-   .car-track{
-  display:flex; gap:18px;
-  overflow-x:auto; overflow-y:visible;
-  scroll-snap-type:x mandatory;
-  scroll-padding-inline: calc(50% - var(--slide-w, 420px)/2);
-  padding: 16px var(--fade-w) 20px var(--fade-w);
-  scrollbar-width:none;
-  position: relative;
+    /* Track (with mask fade on edges) */
+    .car-track{
+      display:flex; gap:18px;
+      overflow-x:auto; overflow-y:visible;
+      scroll-snap-type:x mandatory;
+      scroll-padding-inline: calc(50% - var(--slide-w, 420px)/2);
+      padding: 16px var(--fade-w) 20px var(--fade-w);
+      scrollbar-width:none;
+      position: relative;
 
-  /* NEW: fade content at the edges so the real background shows through */
-  -webkit-mask-image: linear-gradient(to right,
-      transparent 0,
-      #000 var(--fade-w),
-      #000 calc(100% - var(--fade-w)),
-      transparent 100%);
-  mask-image: linear-gradient(to right,
-      transparent 0,
-      #000 var(--fade-w),
-      #000 calc(100% - var(--fade-w)),
-      transparent 100%);
-}
-
+      -webkit-mask-mode: alpha;
+      mask-mode: alpha;
+      -webkit-mask-image: linear-gradient(to right,
+        transparent 0,
+        #000 var(--fade-w),
+        #000 calc(100% - var(--fade-w)),
+        transparent 100%);
+      mask-image: linear-gradient(to right,
+        transparent 0,
+        #000 var(--fade-w),
+        #000 calc(100% - var(--fade-w)),
+        transparent 100%);
+      scrollbar-gutter: stable both-edges;
+    }
     .car-track::-webkit-scrollbar{ display:none; }
 
-    /* Edge fades that blend into the section background */
-    .edge-fade{
-      position:absolute; inset:0; pointer-events:none;
-    }
-    .edge-fade::before,
-    .edge-fade::after{
-      content:""; position:absolute; top:0; bottom:0; width:var(--fade-w); z-index:3;
-    }
-    .edge-fade::before{ left:0;  background:linear-gradient(90deg, var(--page-bg) 0%, transparent 100%); }
-    .edge-fade::after{  right:0; background:linear-gradient(270deg, var(--page-bg) 0%, transparent 100%); }
+    /* Old overlay fades disabled (mask handles edges) */
+    .edge-fade{ display:none !important; }
 
     /* Slide base (slide contains a .car-card) */
     .car-slide{
@@ -154,22 +148,44 @@
       scroll-snap-align:center;
     }
 
-    /* Card visuals */
+    /* ---------------- Card visuals ---------------- */
+    /* Base (theme-agnostic defaults) */
     .car-card{
-      border-radius: 1rem; /* 2xl */
-      border: 1px solid rgba(0,0,0,.10);
-      background: rgba(255,255,255,.70);
-      backdrop-filter: blur(8px);
-      padding: 1.25rem; /* p-5 */
+      border-radius: 1rem;
+      padding: 1.25rem;
       transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, outline-color .25s ease, opacity .25s ease;
       outline: 1px solid transparent;
       outline-offset: -1px;
-      box-shadow: 0 0 0 rgba(0,0,0,0);
+      background-clip: padding-box;
+      /* keep a reasonable default; overridden per theme below */
+      border: 1px solid rgba(99,102,241,0.35);
+      box-shadow: 0 0 12px rgba(99,102,241,0.15);
+      -webkit-backdrop-filter: blur(10px) saturate(120%);
+      backdrop-filter: blur(10px) saturate(120%);
     }
-    .dark .car-card{
-      border-color: rgba(255,255,255,.10);
-      background: rgba(255,255,255,.05);
+
+    /* Dark theme — dark translucent glass */
+    html[data-theme="dark"] .car-card{
+      background: rgba(16,20,28,0.65);
+      border-color: rgba(99,102,241,0.35);
+      box-shadow: 0 0 12px rgba(99,102,241,0.15);
     }
+
+    /* Light theme — soft frosted glass */
+    html[data-theme="light"] .car-card{
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(99,102,241,0.35);
+      box-shadow: 0 0 10px rgba(99,102,241,0.10);
+    }
+
+    /* Fallback for browsers that disable backdrop-filter (e.g., some mobile Chrome builds) */
+    @supports not ((-webkit-backdrop-filter: blur(2px)) or (backdrop-filter: blur(2px))) {
+      html[data-theme="dark"] .car-card{ background: #111827 !important; }
+      html[data-theme="light"] .car-card{ background: #f3f4f6 !important; }
+    }
+
+    /* Ensure images don’t force a light background */
+    .car-card img{ background: transparent !important; }
 
     /* Hover and center emphasis */
     .car-slide:hover .car-card{
@@ -177,12 +193,12 @@
     }
     .car-slide.is-center .car-card{
       transform: translateY(-6px) scale(1.03);
-      box-shadow: 0 16px 44px rgba(0,0,0,.16);
-      outline-color: rgba(99,102,241,.35); /* indigo-ish */
-      border-color: rgba(99,102,241,.35);
+      box-shadow: 0 16px 44px rgba(0,0,0,.20), 0 0 18px rgba(99,102,241,0.25);
+      outline-color: rgba(99,102,241,.35);
+      border-color: rgba(99,102,241,.55);
     }
 
-    /* Optional dots */
+    /* Dots */
     .car-dots{ display:flex; gap:10px; justify-content:center; margin-top:12px; }
     .car-dot{
       width:8px; height:8px; border-radius:999px; background:#cfd6e3;
@@ -211,31 +227,6 @@
     }
     .car-arrow:hover{ transform:translateY(-50%) scale(1.06); }
     .car-arrow.left{ left:6px; } .car-arrow.right{ right:6px; }
-
-    /* === Glassy dark cards + indigo glow (override) === */
-.car-card{
-  background: rgba(16,20,28,0.65);                 /* dark translucent */
-  -webkit-backdrop-filter: blur(10px) saturate(120%);
-  backdrop-filter: blur(10px) saturate(120%);
-  border: 1px solid rgba(99,102,241,0.35);         /* indigo outline */
-  border-radius: 1rem;
-  box-shadow: 0 0 12px rgba(99,102,241,0.15);      /* subtle glow */
-  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
-  background-clip: padding-box;                    /* crisp edge */
-}
-html[data-theme="light"] .car-card{
-  background: rgba(255,255,255,0.08);              /* light frosted look */
-  border: 1px solid rgba(99,102,241,0.35);
-  box-shadow: 0 0 10px rgba(99,102,241,0.10);
-}
-.car-slide.is-center .car-card{
-  transform: translateY(-6px) scale(1.03);
-  border-color: rgba(99,102,241,0.65);
-  box-shadow: 0 0 18px rgba(99,102,241,0.30);
-}
-/* images shouldn’t force a light bg */
-.car-card img{ background: transparent !important; }
-
   </style>
 </head>
 
@@ -478,7 +469,7 @@ html[data-theme="light"] .car-card{
                        class="aspect-[16/9] w-full object-cover bg-gray-100 dark:bg-[#121826] transition-transform duration-500 group-hover:scale-[1.03]" />
                   <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
                 </div>
-                <h3 class="mt-4 font-semibold group-hover:underline">
+                <h3 class="mt-4 font-semibold">
                   Super Massive Black Holes
                 </h3>
                 <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
@@ -501,7 +492,7 @@ html[data-theme="light"] .car-card{
                        class="aspect-[16/9] w-full object-cover bg-gray-100 dark:bg-[#121826] transition-transform duration-500 group-hover:scale-[1.03]" />
                   <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
                 </div>
-                <h3 class="mt-4 font-semibold group-hover:underline">
+                <h3 class="mt-4 font-semibold">
                   Shipping Email Notifications in a PHP/MySQL Kaizen App
                 </h3>
                 <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
