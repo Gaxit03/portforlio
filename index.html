@@ -309,86 +309,110 @@
     </div>
   </section>
 
-  <!-- PROJECTS (Carousel) -->
-  <section id="projects" class="py-16 carousel-pad">
-    <div class="max-w-6xl mx-auto px-4">
-      <div class="flex items-end justify-between">
-        <h2 class="text-2xl font-semibold">Projects</h2>
-        <a href="https://github.com/" target="_blank" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">See all on GitHub →</a>
-      </div>
-
-      <!-- Carousel Shell -->
-      <div class="carousel-shell" data-carousel data-slide-w="clamp(280px, 70vw, 420px)">
-        <button class="car-arrow left" aria-label="Previous project" data-dir="-1">❮</button>
-        <button class="car-arrow right" aria-label="Next project" data-dir="1">❯</button>
-
-        <div class="car-track" role="region" aria-roledescription="carousel" aria-label="Projects">
-          <!-- Slide 1 (Card wraps as slide) -->
-          <article class="car-slide group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur p-5 transition hover:shadow-sm reveal">
-            <div class="relative overflow-hidden rounded-xl">
-              <img src="Solar-Panel.jpg" alt="Solar Power Analysis"
-                   loading="lazy"
-                   class="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
-              <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
-            </div>
-            <h3 class="mt-4 font-semibold">Solar Power Analysis (R)</h3>
-            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-              Statistical inference on adoption factors; 5 interpretations with charts and a clean report.
-            </p>
-            <div class="mt-3 text-xs text-gray-500">R, ggplot2, dplyr</div>
-            <a href="https://github.com/ComputerScienceSJP/SDI-PROJECT-group-15" class="mt-3 inline-block text-indigo-600 dark:text-indigo-400 text-sm hover:underline">Repo / Report →</a>
-          </article>
-
-          <!-- Slide 2 -->
-          <article class="car-slide group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur p-5 transition hover:shadow-sm reveal">
-            <div class="relative overflow-hidden rounded-xl">
-              <img src="Screenshot-(74).png" alt="Network Expansion"
-                   loading="lazy"
-                   class="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
-              <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
-            </div>
-            <h3 class="mt-4 font-semibold">Network Expansion for Meraki Solutions</h3>
-            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-              Upgraded network package with sophisticated devices which capable of further expansion
-            </p>
-            <div class="mt-3 text-xs text-gray-500">Cisco Packet Tracer, Windows Server Management</div>
-            <a href="#" class="mt-3 inline-block text-indigo-600 dark:text-indigo-400 text-sm hover:underline">Project Report →</a>
-          </article>
-
-          <!-- Slide 3 -->
-          <article class="car-slide group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur p-5 transition hover:shadow-sm reveal">
-            <div class="aspect-video rounded-xl bg-gradient-to-br from-fuchsia-200/60 to-fuchsia-50/50 dark:from-fuchsia-500/10 dark:to-white/5 animate-floaty"></div>
-            <h3 class="mt-4 font-semibold">GPV Kaizen App</h3>
-            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-              Idea submission, manager ranking, email notifications, and dashboards.
-            </p>
-            <div class="mt-3 text-xs text-gray-500">PHP, MySQL, PHPMailer</div>
-            <a href="#" class="mt-3 inline-block text-indigo-600 dark:text-indigo-400 text-sm hover:underline">Case Study →</a>
-          </article>
-
-          <!-- Slide 2 -->
-          <article class="car-slide group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur p-5 transition hover:shadow-sm reveal">
-            <div class="relative overflow-hidden rounded-xl">
-              <img src="Screenshot-(74).png" alt="Network Expansion"
-                   loading="lazy"
-                   class="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
-              <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
-            </div>
-            <h3 class="mt-4 font-semibold">Network Expansion for Meraki Solutions</h3>
-            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-              Upgraded network package with sophisticated devices which capable of further expansion
-            </p>
-            <div class="mt-3 text-xs text-gray-500">Cisco Packet Tracer, Windows Server Management</div>
-            <a href="#" class="mt-3 inline-block text-indigo-600 dark:text-indigo-400 text-sm hover:underline">Project Report →</a>
-          </article>
-
-        </div>
-
-        <div class="edge-fade" aria-hidden="true"></div>
-        <div class="car-dots" aria-hidden="false"></div>
-      </div>
+  <!-- BLOG (Carousel - optimized like Projects) -->
+<section id="blog" class="py-16 carousel-pad">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="flex items-end justify-between">
+      <h2 class="text-2xl font-semibold">Blog</h2>
+      <a href="blog.html" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">View all →</a>
     </div>
-  </section>
+
+    <p class="mt-3 text-gray-600 dark:text-gray-300 max-w-2xl">
+      Things I would like to share with others....
+    </p>
+
+    <!-- Carousel Shell -->
+    <div class="carousel-shell" data-carousel data-slide-w="clamp(280px, 70vw, 420px)">
+      <!-- side arrows -->
+      <button class="car-arrow left" aria-label="Previous post" data-dir="-1">❮</button>
+      <button class="car-arrow right" aria-label="Next post" data-dir="1">❯</button>
+
+      <!-- track -->
+      <div class="car-track" role="region" aria-roledescription="carousel" aria-label="Blog posts">
+        <!-- Post 1 -->
+        <article class="car-slide group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur p-5 hover:shadow-sm transition reveal">
+          <a href="blog.html" class="block">
+            <div class="relative overflow-hidden rounded-xl">
+              <img
+                src="Aerospatiale-BAC_Concorde_101,_Air_France_AN0702255.jpg"
+                alt="Concorde crash analysis"
+                loading="lazy" decoding="async"
+                class="aspect-[16/9] w-full object-cover bg-gray-100 dark:bg-[#121826] transition-transform duration-500 group-hover:scale-[1.03]" />
+              <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+            </div>
+            <h3 class="mt-4 font-semibold group-hover:underline">
+              Crash analysis of Air France flight 4590
+            </h3>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+              Comprehensive report into the first Concorde crash ever.
+            </p>
+          </a>
+          <div class="mt-3 flex items-center justify-between text-xs text-gray-500">
+            <span>Sep 2025 • 5 min read</span>
+          </div>
+        </article>
+
+        <!-- Post 2 -->
+        <article class="car-slide group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur p-5 hover:shadow-sm transition reveal">
+          <a href="smbh.html" class="block">
+            <div class="relative overflow-hidden rounded-xl">
+              <img
+                src="m87.jpg" alt="Supermassive black hole (M87*)"
+                loading="lazy" decoding="async"
+                class="aspect-[16/9] w-full object-cover bg-gray-100 dark:bg-[#121826] transition-transform duration-500 group-hover:scale-[1.03]" />
+              <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+            </div>
+            <h3 class="mt-4 font-semibold group-hover:underline">
+              Super Massive Black Holes
+            </h3>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+              Descriptive study of the most mysterious objects in the Universe.
+            </p>
+          </a>
+          <div class="mt-3 flex items-center justify-between text-xs text-gray-500">
+            <span>Aug 2025 • 7 min read</span>
+          </div>
+        </article>
+
+        <!-- Post 3 -->
+        <article class="car-slide group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur p-5 hover:shadow-sm transition reveal">
+          <a href="posts/kaizen-app-emailing.html" class="block">
+            <div class="relative overflow-hidden rounded-xl">
+              <img
+                src="assets/images/blog-kaizen.jpg" alt="Kaizen app emailing"
+                loading="lazy" decoding="async"
+                class="aspect-[16/9] w-full object-cover bg-gray-100 dark:bg-[#121826] transition-transform duration-500 group-hover:scale-[1.03]" />
+              <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+            </div>
+            <h3 class="mt-4 font-semibold group-hover:underline">
+              Shipping Email Notifications in a PHP/MySQL Kaizen App
+            </h3>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+              Schema decisions, PHPMailer pitfalls, and reliability checks.
+            </p>
+          </a>
+          <div class="mt-3 flex items-center justify-between text-xs text-gray-500">
+            <span>Jul 2025 • 6 min read</span>
+            <div class="flex gap-2">
+              <span class="rounded-lg px-2 py-1 border border-black/10 dark:border-white/10">PHP</span>
+              <span class="rounded-lg px-2 py-1 border border-black/10 dark:border-white/10">Backend</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- edge fades + dots -->
+      <div class="edge-fade" aria-hidden="true"></div>
+      <div class="car-dots" aria-hidden="false"></div>
+    </div>
+
+    <!-- (Optional) Simple pager -->
+    <div class="mt-8 flex items-center justify-center gap-2">
+      <a href="#" class="rounded-lg px-3 py-1.5 border border-black/10 dark:border-white/10 hover:border-indigo-300">← Newer</a>
+      <a href="#" class="rounded-lg px-3 py-1.5 border border-black/10 dark:border-white/10 hover:border-indigo-300">Older →</a>
+    </div>
+  </div>
+</section>
 
   <!-- BLOG (Carousel) -->
   <section id="blog" class="py-16 carousel-pad">
@@ -722,3 +746,4 @@
   </script>
 </body>
 </html>
+
