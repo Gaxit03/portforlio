@@ -108,60 +108,45 @@
       position: relative;
       width: min(1100px, 92vw);
       margin: 1.25rem auto 0 auto;
-      background: transparent;                 /* CHANGED: ensure no stray bg */
-      isolation: isolate;                      /* CHANGED: stable compositing */
     }
     /* Section tall enough to show emphasized card */
     .carousel-pad{ min-height: 420px; }
 
     /* Track */
-    .car-track{
-      display:flex; gap:18px;
-      overflow-x:auto; overflow-y:visible;   /* allow glow/ring breathing room */
-      scroll-snap-type:x mandatory;
-      scroll-padding-inline: calc(50% - var(--slide-w, 420px)/2);
-      padding: 16px var(--fade-w) 20px var(--fade-w);
-      scrollbar-width:none;
-      position: relative;
-      background: transparent;               /* CHANGED: no background layer */
-      -webkit-mask-mode: alpha;              /* CHANGED: explicit mask mode */
-      mask-mode: alpha;                      /* CHANGED */
+   .car-track{
+  display:flex; gap:18px;
+  overflow-x:auto; overflow-y:visible;
+  scroll-snap-type:x mandatory;
+  scroll-padding-inline: calc(50% - var(--slide-w, 420px)/2);
+  padding: 16px var(--fade-w) 20px var(--fade-w);
+  scrollbar-width:none;
+  position: relative;
 
-      /* CHANGED: Cross-browser content fade at edges (lets real page bg show) */
-      -webkit-mask-image: linear-gradient(to right,
-        transparent 0,
-        #000 var(--fade-w),
-        #000 calc(100% - var(--fade-w)),
-        transparent 100%);
-      mask-image: linear-gradient(to right,
-        transparent 0,
-        #000 var(--fade-w),
-        #000 calc(100% - var(--fade-w)),
-        transparent 100%);
-    }
+  /* NEW: fade content at the edges so the real background shows through */
+  -webkit-mask-image: linear-gradient(to right,
+      transparent 0,
+      #000 var(--fade-w),
+      #000 calc(100% - var(--fade-w)),
+      transparent 100%);
+  mask-image: linear-gradient(to right,
+      transparent 0,
+      #000 var(--fade-w),
+      #000 calc(100% - var(--fade-w)),
+      transparent 100%);
+}
+
     .car-track::-webkit-scrollbar{ display:none; }
-    /* Extra: some Chromium builds reserve a gutter with white — avoid it */
-    .car-track{ scrollbar-gutter: stable both-edges; }  /* CHANGED */
 
-    /* Fallback overlay fades ONLY if mask is unsupported */
-    @supports not ((mask-image: linear-gradient(black, white))) {
-      .edge-fade{ display:block !important; }          /* CHANGED: use fallback */
-    }
-
-    /* Edge fades that blend into the section background (fallback only) */
+    /* Edge fades that blend into the section background */
     .edge-fade{
       position:absolute; inset:0; pointer-events:none;
-      display:none;                                     /* CHANGED: default off */
     }
     .edge-fade::before,
     .edge-fade::after{
       content:""; position:absolute; top:0; bottom:0; width:var(--fade-w); z-index:3;
-      /* CHANGED: use transparent→current blend, NOT hard color */
-      background: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,.35) 60%, rgba(0,0,0,0) 100%);
-      mix-blend-mode: multiply;
     }
-    .edge-fade::before{ left:0; transform: scaleX(-1); }
-    .edge-fade::after{  right:0; }
+    .edge-fade::before{ left:0;  background:linear-gradient(90deg, var(--page-bg) 0%, transparent 100%); }
+    .edge-fade::after{  right:0; background:linear-gradient(270deg, var(--page-bg) 0%, transparent 100%); }
 
     /* Slide base (slide contains a .car-card) */
     .car-slide{
@@ -170,42 +155,20 @@
     }
 
     /* Card visuals */
-    /* ---- PATCH: remove white/milky backgrounds on slides ---- */
-/* === Dark Glass Cards with Glow Borders === */
-.car-card{
-  background: rgba(16,20,28,0.65);              /* dark translucent glass */
-  -webkit-backdrop-filter: blur(10px) saturate(120%);
-  backdrop-filter: blur(10px) saturate(120%);
-  border: 1px solid rgba(99,102,241,0.35);      /* indigo outline */
-  border-radius: 1rem;
-  box-shadow: 0 0 12px rgba(99,102,241,0.15);   /* subtle glow */
-  transition: transform .25s ease,
-              border-color .25s ease,
-              box-shadow .25s ease;
-}
-
-/* Light theme variant */
-html[data-theme="light"] .car-card{
-  background: rgba(255,255,255,0.08);           /* light frosted glass */
-  border: 1px solid rgba(99,102,241,0.35);
-  box-shadow: 0 0 10px rgba(99,102,241,0.10);
-}
-
-/* Emphasized center card */
-.car-slide.is-center .car-card{
-  transform: translateY(-6px) scale(1.03);
-  border-color: rgba(99,102,241,0.65);
-  box-shadow: 0 0 18px rgba(99,102,241,0.30);
-}
-
-    
-
+    .car-card{
+      border-radius: 1rem; /* 2xl */
+      border: 1px solid rgba(0,0,0,.10);
+      background: rgba(255,255,255,.70);
+      backdrop-filter: blur(8px);
+      padding: 1.25rem; /* p-5 */
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, outline-color .25s ease, opacity .25s ease;
+      outline: 1px solid transparent;
+      outline-offset: -1px;
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+    }
     .dark .car-card{
       border-color: rgba(255,255,255,.10);
       background: rgba(255,255,255,.05);
-      /* CHANGED: prevent halo at edges over masks in some engines */
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
     }
 
     /* Hover and center emphasis */
@@ -248,6 +211,8 @@ html[data-theme="light"] .car-card{
     }
     .car-arrow:hover{ transform:translateY(-50%) scale(1.06); }
     .car-arrow.left{ left:6px; } .car-arrow.right{ right:6px; }
+
+    
   </style>
 </head>
 
@@ -433,7 +398,7 @@ html[data-theme="light"] .car-card{
           </article>
         </div>
 
-        <div class="edge-fade" aria-hidden="true"></div> <!-- fallback only -->
+        <div class="edge-fade" aria-hidden="true"></div>
         <div class="car-dots" aria-hidden="false"></div>
       </div>
     </div>
@@ -531,7 +496,7 @@ html[data-theme="light"] .car-card{
           </article>
         </div>
 
-        <div class="edge-fade" aria-hidden="true"></div> <!-- fallback only -->
+        <div class="edge-fade" aria-hidden="true"></div>
         <div class="car-dots" aria-hidden="false"></div>
       </div>
 
@@ -770,6 +735,3 @@ html[data-theme="light"] .car-card{
   </script>
 </body>
 </html>
-
-
-
