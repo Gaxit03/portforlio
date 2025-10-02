@@ -212,7 +212,30 @@
     .car-arrow:hover{ transform:translateY(-50%) scale(1.06); }
     .car-arrow.left{ left:6px; } .car-arrow.right{ right:6px; }
 
-    
+    /* === Glassy dark cards + indigo glow (override) === */
+.car-card{
+  background: rgba(16,20,28,0.65);                 /* dark translucent */
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  backdrop-filter: blur(10px) saturate(120%);
+  border: 1px solid rgba(99,102,241,0.35);         /* indigo outline */
+  border-radius: 1rem;
+  box-shadow: 0 0 12px rgba(99,102,241,0.15);      /* subtle glow */
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  background-clip: padding-box;                    /* crisp edge */
+}
+html[data-theme="light"] .car-card{
+  background: rgba(255,255,255,0.08);              /* light frosted look */
+  border: 1px solid rgba(99,102,241,0.35);
+  box-shadow: 0 0 10px rgba(99,102,241,0.10);
+}
+.car-slide.is-center .car-card{
+  transform: translateY(-6px) scale(1.03);
+  border-color: rgba(99,102,241,0.65);
+  box-shadow: 0 0 18px rgba(99,102,241,0.30);
+}
+/* images shouldn’t force a light bg */
+.car-card img{ background: transparent !important; }
+
   </style>
 </head>
 
