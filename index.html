@@ -179,6 +179,9 @@
 html[data-theme="light"] .car-card{
   border-color: rgba(0,0,0,.10);
 }
+/* optional subtle glass (non-white) */
+html[data-theme="light"] .car-card{ background: rgba(255,255,255,.12) !important; backdrop-filter: blur(6px); }
+html[data-theme="dark"]  .car-card{ background: rgba(16,20,28,.30)   !important; backdrop-filter: blur(6px); }
 
 /* Images inside cards shouldn’t force a light bg */
 .car-card img{
@@ -755,4 +758,5 @@ html[data-theme="light"] .car-card{
   </script>
 </body>
 </html>
+
 
