@@ -113,15 +113,28 @@
     .carousel-pad{ min-height: 420px; }
 
     /* Track */
-    .car-track{
-      display:flex; gap:18px;
-      overflow-x:auto; overflow-y:visible;   /* allow glow/ring breathing room */
-      scroll-snap-type:x mandatory;
-      scroll-padding-inline: calc(50% - var(--slide-w, 420px)/2);
-      padding: 16px var(--fade-w) 20px var(--fade-w);
-      scrollbar-width:none;
-      position: relative;
-    }
+   .car-track{
+  display:flex; gap:18px;
+  overflow-x:auto; overflow-y:visible;
+  scroll-snap-type:x mandatory;
+  scroll-padding-inline: calc(50% - var(--slide-w, 420px)/2);
+  padding: 16px var(--fade-w) 20px var(--fade-w);
+  scrollbar-width:none;
+  position: relative;
+
+  /* NEW: fade content at the edges so the real background shows through */
+  -webkit-mask-image: linear-gradient(to right,
+      transparent 0,
+      #000 var(--fade-w),
+      #000 calc(100% - var(--fade-w)),
+      transparent 100%);
+  mask-image: linear-gradient(to right,
+      transparent 0,
+      #000 var(--fade-w),
+      #000 calc(100% - var(--fade-w)),
+      transparent 100%);
+}
+
     .car-track::-webkit-scrollbar{ display:none; }
 
     /* Edge fades that blend into the section background */
